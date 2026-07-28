@@ -113,11 +113,4 @@ variable "max_concurrent_runs" {
 variable "default_args" {
   type        = map(string)
   description = "A map of default arguments for the Glue job"
-  default = {
-    "--job-language"                     = "python"
-    "--continuous-log-logGroup"          = "/aws-glue/jobs"
-    "--enable-continuous-cloudwatch-log" = "true"
-    "--enable-continuous-log-filter"     = "true"
-    "--enable-metrics"                   = ""
-  }
 }
