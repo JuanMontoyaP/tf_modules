@@ -1,3 +1,28 @@
+variable "scripts_bucket" {
+  type        = string
+  description = "The S3 bucket where the Glue job script is stored"
+}
+
+variable "script_key" {
+  type        = string
+  description = "The S3 key of the Glue job script"
+
+  validation {
+    condition     = can(regex("^.+$", var.script_key))
+    error_message = "The script key must be a valid S3 key (e.g., path/to/script.py)."
+  }
+}
+
+variable "source_script" {
+  type        = string
+  description = "The local path to the Glue job script to be uploaded to S3"
+
+  validation {
+    condition     = can(regex("^.+$", var.source_script))
+    error_message = "The source script must be a valid local file path (e.g., ./scripts/script.py)."
+  }
+}
+
 variable "glue_job_name" {
   type        = string
   description = "The name of the Glue job"
@@ -62,22 +87,37 @@ variable "execution_class" {
   }
 }
 
-variable "script_location" {
-  type        = string
-  description = "The S3 location of the Glue job script"
+variable "command" {
+  type = object({
+    name           = string
+    python_version = string
+  })
 
-  validation {
-    condition     = can(regex("^s3://.+/.+$", var.script_location))
-    error_message = "The script location must be a valid S3 URI (e.g., s3://bucket-name/path/to/script.py)."
+  default = {
+    name           = "glueetl"
+    python_version = "3"
   }
 }
 
-variable "temp_dir_bucket" {
-  type        = string
-  description = "The S3 bucket for temporary files used by the Glue job"
+variable "max_concurrent_runs" {
+  type        = number
+  description = "The maximum number of concurrent runs for the Glue job"
+  default     = 1
 
   validation {
-    condition     = can(regex("^[a-z0-9.-]{3,63}$", var.temp_dir_bucket))
-    error_message = "The temp_dir_bucket must be a valid S3 bucket name."
+    condition     = var.max_concurrent_runs > 0
+    error_message = "The maximum number of concurrent runs must be a positive integer."
+  }
+}
+
+variable "default_args" {
+  type        = map(string)
+  description = "A map of default arguments for the Glue job"
+  default = {
+    "--job-language"                     = "python"
+    "--continuous-log-logGroup"          = "/aws-glue/jobs"
+    "--enable-continuous-cloudwatch-log" = "true"
+    "--enable-continuous-log-filter"     = "true"
+    "--enable-metrics"                   = ""
   }
 }
