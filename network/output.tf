@@ -17,3 +17,13 @@ output "private_subnet_ids" {
   value       = aws_subnet.private_subnet[*].id
   description = "The IDs of the private subnets"
 }
+
+output "public_cidrs" {
+  value       = aws_subnet.public_subnet[*].cidr_block
+  description = "The CIDR blocks of the public subnets"
+}
+
+output "private_cidrs" {
+  value       = aws_subnet.private_subnet[*].cidr_block
+  description = "The CIDR blocks of the private subnets"
+}
