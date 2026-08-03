@@ -8,3 +8,7 @@ output "rds_address" {
   description = "The address of the RDS instance"
 }
 
+output "rds_database" {
+  value       = aws_db_instance.this.db_name
+  description = "The name of the RDS database"
+}

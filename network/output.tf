@@ -27,3 +27,13 @@ output "private_cidrs" {
   value       = aws_subnet.private_subnet[*].cidr_block
   description = "The CIDR blocks of the private subnets"
 }
+
+output "public_azs" {
+  value       = aws_subnet.public_subnet[*].availability_zone
+  description = "The availability zones of the public subnets"
+}
+
+output "private_azs" {
+  value       = aws_subnet.private_subnet[*].availability_zone
+  description = "The availability zones of the private subnets"
+}

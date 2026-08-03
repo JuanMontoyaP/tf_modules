@@ -10,14 +10,15 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "this" {
-  count = length(var.allowed_cidr_blocks)
+  for_each = var.ingress_rules
 
-  security_group_id = aws_security_group.this.id
-  description       = "Database access"
-  cidr_ipv4         = var.allowed_cidr_blocks[count.index]
-  from_port         = var.port
-  to_port           = var.port
-  ip_protocol       = "tcp"
+  security_group_id            = aws_security_group.this.id
+  description                  = each.value.description
+  from_port                    = each.value.from_port
+  to_port                      = each.value.to_port
+  ip_protocol                  = each.value.ip_protocol
+  cidr_ipv4                    = try(each.value.cidr_ipv4, null)
+  referenced_security_group_id = try(each.value.referenced_security_group_id, null)
 }
 
 resource "aws_vpc_security_group_egress_rule" "this" {

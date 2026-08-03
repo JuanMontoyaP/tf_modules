@@ -42,7 +42,7 @@ variable "storage_type" {
 variable "db_name" {
   description = "Initial database name"
   type        = string
-  default     = null
+  default     = "mydb"
 }
 
 variable "username" {
@@ -70,12 +70,6 @@ variable "subnet_ids" {
 variable "vpc_id" {
   description = "VPC ID for the security group"
   type        = string
-}
-
-variable "allowed_cidr_blocks" {
-  description = "CIDR blocks allowed to access the DB"
-  type        = list(string)
-  default     = []
 }
 
 variable "multi_az" {
@@ -130,4 +124,17 @@ variable "apply_immediately" {
   description = "Apply changes immediately"
   type        = bool
   default     = false
+}
+
+variable "ingress_rules" {
+  description = "Custom ingress rules for the security group"
+  type = map(object({
+    description                  = string
+    from_port                    = number
+    to_port                      = number
+    ip_protocol                  = string
+    cidr_ipv4                    = optional(string)
+    referenced_security_group_id = optional(string)
+  }))
+  default = {}
 }
