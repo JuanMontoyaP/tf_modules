@@ -114,3 +114,9 @@ variable "default_args" {
   type        = map(string)
   description = "A map of default arguments for the Glue job"
 }
+
+variable "connections" {
+  type        = list(string)
+  description = "Names of Glue connections to associate with the job, used to launch the job's ENIs in the connection's VPC"
+  default     = []
+}

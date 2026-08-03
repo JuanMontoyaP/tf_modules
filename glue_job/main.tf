@@ -20,6 +20,9 @@ resource "aws_glue_job" "this" {
     python_version  = var.command.python_version
   }
 
+  # Required for Glue to launch the job's ENIs in the connection's VPC/subnet/SG
+  connections = var.connections
+
   execution_property {
     max_concurrent_runs = var.max_concurrent_runs
   }
