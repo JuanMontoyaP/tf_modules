@@ -16,7 +16,7 @@ resource "aws_glue_job" "this" {
 
   command {
     name            = var.command.name
-    script_location = "s3://${aws_s3_object.this.id}"
+    script_location = "s3://${aws_s3_object.this.bucket}/${aws_s3_object.this.key}"
     python_version  = var.command.python_version
   }
 
