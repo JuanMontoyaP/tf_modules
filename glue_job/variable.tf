@@ -99,6 +99,12 @@ variable "command" {
   }
 }
 
+variable "glue_version" {
+  type        = string
+  description = "The AWS Glue version to run the job on"
+  default     = "5.1"
+}
+
 variable "max_concurrent_runs" {
   type        = number
   description = "The maximum number of concurrent runs for the Glue job"

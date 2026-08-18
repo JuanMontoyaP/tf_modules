@@ -13,6 +13,7 @@ resource "aws_glue_job" "this" {
   number_of_workers = var.number_of_workers
   worker_type       = var.worker_type
   execution_class   = var.execution_class
+  glue_version      = var.glue_version
 
   command {
     name            = var.command.name
