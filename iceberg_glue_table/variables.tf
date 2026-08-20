@@ -64,10 +64,11 @@ variable "schema_fields" {
 }
 
 variable "partition_fields" {
-  description = "The partition fields for the Glue table"
+  description = "The partition fields for the Glue table. Leave empty for an unpartitioned table"
   type = list(object({
     name      = string
     source_id = string
     transform = string
   }))
+  default = []
 }

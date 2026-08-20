@@ -26,14 +26,18 @@ resource "aws_glue_catalog_table" "this" {
           }
         }
 
-        partition_spec {
-          dynamic "fields" {
-            for_each = var.partition_fields
+        dynamic "partition_spec" {
+          for_each = length(var.partition_fields) > 0 ? [1] : []
 
-            content {
-              name      = fields.value.name
-              source_id = fields.value.source_id
-              transform = fields.value.transform
+          content {
+            dynamic "fields" {
+              for_each = var.partition_fields
+
+              content {
+                name      = fields.value.name
+                source_id = fields.value.source_id
+                transform = fields.value.transform
+              }
             }
           }
         }
